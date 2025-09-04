@@ -1,7 +1,7 @@
 import Navbar from "./components/NavBar";
 import Hero from "./components/Hero";
 import Analytics from "./components/Analytics";
-import NewsletterSignup from "./components/NewsletterSignup";
+import NewsletterSignup from "./components/NewsLetterSignup";
 
 export default function App() {
   return (
