@@ -1,11 +1,55 @@
+ import { useState, useEffect } from "react";
+
 export default function NewsletterSignup() {
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
+  const [visible, setVisible] = useState(true);
+  const [disabled, setDisabled] = useState(false);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!email) {
+      setMessage({ type: "error", text: "Please enter your email." });
+      setVisible(true);
+    } else if (!emailRegex.test(email)) {
+      setMessage({ type: "error", text: "Please enter a valid email address." });
+      setVisible(true);
+    } else {
+      setMessage({ type: "success", text: "Thanks for subscribing!" });
+      setEmail("");
+      setVisible(true);
+      setDisabled(true); // lock input + button
+    }
+  };
+
+  // Auto-fade out message + re-enable input/button
+  useEffect(() => {
+    if (message) {
+      setVisible(true);
+
+      const fadeTimer = setTimeout(() => setVisible(false), 2500); // start fading
+      const removeTimer = setTimeout(() => {
+        setMessage(null);
+        setDisabled(false); // unlock after message clears
+      }, 3000);
+
+      return () => {
+        clearTimeout(fadeTimer);
+        clearTimeout(removeTimer);
+      };
+    }
+  }, [message]);
+
   return (
     <section className="bg-black text-white py-12 px-4">
-      <div className="max-w-[850px] mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+      <div className="max-w-[1100px] mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
         
         {/* Text */}
-        <div className="text-center md:text-left ">
-          <h2 className="text-2xl md:text-2xl font-bold">
+        <div className="text-center md:text-left max-w-lg">
+          <h2 className="text-2xl md:text-3xl font-bold">
             Want tips & tricks to optimize your flow?
           </h2>
           <p className="mt-2 text-gray-400">
@@ -13,29 +57,52 @@ export default function NewsletterSignup() {
           </p>
         </div>
 
-        {/* Email input */}
-        <div className="flex gap-4 md:mt-[-20px] mr-[-45px]">
-        <form className="bg-gray-300 flex w-64 max-w-md gap-3 rounded-lg">
+        {/* Form */}
+        <form
+          onSubmit={handleSubmit}
+          className="flex flex-col sm:flex-row items-center w-full sm:w-auto gap-3"
+        >
           <input
             type="email"
             placeholder="Enter your email"
-            className="flex-1 px-4 py-2 rounded-lg text-black"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            disabled={disabled}
+            className={`bg-gray-400 flex-1 px-4 py-2 rounded-md w-full sm:w-72 ${
+              disabled ? "bg-gray-200 cursor-not-allowed text-gray-500" : "text-black"
+            }`}
           />
-        </form>
           <button
             type="submit"
-            className="bg-green-500 w-24 px-4 py-2 rounded-lg hover:bg-green-600"
+            disabled={disabled}
+            className={`px-6 py-2 rounded-md transition-colors w-full sm:w-auto 
+              ${
+                disabled
+                  ? "bg-green-400 cursor-not-allowed"
+                  : "bg-green-500 hover:bg-green-600"
+              }`}
           >
-            Notify
+            {message?.type === "success" ? "Subscribed" : "Notify me"}
           </button>
-          </div>
+        </form>
       </div>
 
       {/* Privacy note */}
-      <p className="text-gray-500 text-sm text-center md:pl-[40pc] sm:mt-4">
+      <p className="text-gray-500 text-sm text-center mt-6">
         We care about the protection of your data. Read our{" "}
         <a href="#" className="underline text-green-500">Privacy Policy</a>.
       </p>
+
+      {/* Message */}
+      {message && (
+        <p
+          className={`mt-4 text-center text-sm transition-opacity duration-500 ${
+            visible ? "opacity-100" : "opacity-0"
+          } ${message.type === "success" ? "text-green-400" : "text-red-400"}`}
+        >
+          {message.text}
+        </p>
+      )}
     </section>
   );
 }

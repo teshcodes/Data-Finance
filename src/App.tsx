@@ -2,6 +2,8 @@ import Navbar from "./components/NavBar";
 import Hero from "./components/Hero";
 import Analytics from "./components/Analytics";
 import NewsletterSignup from "./components/NewsLetterSignup";
+import PricingPage from "./components/PricingPage";
+
 
 export default function App() {
   return (
@@ -10,6 +12,7 @@ export default function App() {
       <Hero />
       <Analytics />
       <NewsletterSignup />
+      <PricingPage />
     </div>
   );
 }
