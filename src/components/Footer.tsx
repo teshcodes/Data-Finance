@@ -126,7 +126,8 @@ const Footer: React.FC = () => {
 
       {/* Bottom Bar */}
       <div className="max-w-7xl mx-auto px-6 py-4 flex flex-col md:flex-row items-center justify-between text-sm text-gray-500">
-        <p>© 2025 REACT. All rights reserved.</p>
+        <p>© 2025 DataFinance. All rights reserved.</p>
+        <p>Made with 💖 by TeshCodes</p>
         <button
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
           className="mt-2 md:mt-0 hover:text-green-500 transition-colors"
