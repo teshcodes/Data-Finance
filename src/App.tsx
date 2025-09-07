@@ -3,6 +3,7 @@ import Hero from "./components/Hero";
 import Analytics from "./components/Analytics";
 import NewsletterSignup from "./components/NewsLetterSignup";
 import PricingPage from "./components/PricingPage";
+import Footer from "./components/Footer.tsx";
 
 
 export default function App() {
@@ -13,6 +14,7 @@ export default function App() {
       <Analytics />
       <NewsletterSignup />
       <PricingPage />
+      <Footer />
     </div>
   );
 }
