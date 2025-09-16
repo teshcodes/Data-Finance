@@ -8,7 +8,7 @@ import Footer from "./components/Footer.tsx";
 
 export default function App() {
   return (
-    <div className="bg-[#000300] min-h-screen">
+    <div className="bg-white text-black dark:bg-[#000300] dark:text-gray-100 min-h-screen">
       <Navbar />
       <Hero />
       <Analytics />

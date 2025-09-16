@@ -1,6 +1,6 @@
- import { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Menu, X, Sun, Moon } from "lucide-react";
-import { motion, AnimatePresence} from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import type { Variants } from "framer-motion";
 
 const menuVariants: Variants = {
@@ -13,20 +13,24 @@ export default function NavBar() {
   const [isOpen, setIsOpen] = useState(false);
   const [theme, setTheme] = useState<"light" | "dark">("light");
 
+  // Effect to read initial theme from localStorage
   useEffect(() => {
-    const savedTheme = localStorage.getItem("theme") as "light" | "dark";
-    const initialTheme = savedTheme || "light"; // ✅ default is light
-    setTheme(initialTheme);
-    document.documentElement.classList.add(initialTheme);
+    const savedTheme = localStorage.getItem("theme");
+    if (savedTheme === "dark" || savedTheme === "light") {
+      setTheme(savedTheme);
+    }
   }, []);
 
-  const toggleTheme = () => {
-    const newTheme = theme === "light" ? "dark" : "light";
-    setTheme(newTheme);
+  // Effect to apply the theme class to the HTML document element
+  // This is the CRITICAL part that makes the toggle work for the whole app.
+  useEffect(() => {
+    document.documentElement.classList.remove("light", "dark");
+    document.documentElement.classList.add(theme);
+    localStorage.setItem("theme", theme);
+  }, [theme]);
 
-    document.documentElement.classList.remove(theme);
-    document.documentElement.classList.add(newTheme);
-    localStorage.setItem("theme", newTheme);
+  const toggleTheme = () => {
+    setTheme(prevTheme => (prevTheme === "light" ? "dark" : "light"));
   };
 
   return (
@@ -58,7 +62,7 @@ export default function NavBar() {
             {/* Dark/Light toggle */}
             <button
               onClick={toggleTheme}
-              className="ml-6 p-2 rounded-full border border-gray-400 dark:border-gray-600 hover:border-[#00df9a] transition"
+              className="ml-6 p-2 rounded-full transition border border-gray-400 dark:border-gray-600 hover:border-[#00df9a]"
             >
               {theme === "light" ? (
                 <Moon size={20} className="text-blue-500" />
@@ -116,7 +120,9 @@ export default function NavBar() {
               <a href="#" className="hover:text-[#00df9a] border-b w-1/2 pb-3">
                 Services
               </a>
-              <a href="#" className="hover:text-[#00df9a]">Contact</a>
+              <a href="#" className="hover:text-[#00df9a]">
+                Contact
+              </a>
             </div>
           </motion.div>
         )}

@@ -10,6 +10,8 @@ import App from './App.tsx'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
+    <div className="bg-white dark:bg-black min-h-screen transition-colors duration-500">
     <App />
+    </div>
   </StrictMode>,
 )

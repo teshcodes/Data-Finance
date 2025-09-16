@@ -21,7 +21,7 @@ const Footer: React.FC = () => {
       <div className="max-w-7xl mx-auto px-6 py-12 border-b border-gray-700 grid grid-cols-1 md:grid-cols-5 gap-8">
         {/* Brand & Description */}
         <div>
-          <h2 className="text-green-500 font-bold text-2xl mb-4">DataFinance</h2>
+          <h2 className="text-[#00df9a] font-bold text-2xl mb-4">DataFinance</h2>
           <p className="text-gray-400 text-sm mb-6">
             Building reliable and scalable digital solutions to help you grow
             faster and smarter.
